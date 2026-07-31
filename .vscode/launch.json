@@ -1,0 +1,61 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Minimals DEV",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "dev",
+                "--target",
+                "${workspaceFolder}/lib/main.dart",
+                "--dart-define=ENV=dev"
+            ],
+            "program": "${workspaceFolder}/lib/main.dart"
+        },
+        {
+            "name": "Minimals DEV release",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "dev",
+                "--release",
+                "--target",
+                "${workspaceFolder}/lib/main.dart",
+                "--dart-define=ENV=dev"
+            ],
+            "program": "${workspaceFolder}/lib/main.dart"
+        },
+        {
+            "name": "Minimals UAT",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "uat",
+                "--target",
+                "${workspaceFolder}/lib/main.dart",
+                "--dart-define=ENV=uat"
+            ],
+            "program": "${workspaceFolder}/lib/main.dart"
+        },
+        {
+            "name": "Minimals PROD",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "prod",
+                "--target",
+                "${workspaceFolder}/lib/main.dart",
+                "--dart-define=ENV=prod"
+            ],
+            "program": "${workspaceFolder}/lib/main.dart"
+        },
+    ]
+}

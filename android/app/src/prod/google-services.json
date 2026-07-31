@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "375840358171",
+    "project_id": "minimals-prod",
+    "storage_bucket": "minimals-prod.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375840358171:android:bb8f1b25f64a23ebf21dbe",
+        "android_client_info": {
+          "package_name": "com.minimals.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJwP_TiCTvh8dNV7jgeT6xDZuCEomDuUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
