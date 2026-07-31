@@ -8,12 +8,14 @@ class AppHeaderBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool isCrownShow;
   final bool isbellIconShow;
+  final List<Widget>? extraActions;
 
   AppHeaderBar({
     super.key,
     required this.title,
     this.isCrownShow = false,
     this.isbellIconShow = false,
+    this.extraActions,
   });
 
   final GetStorage storage = GetStorage();
@@ -50,6 +52,7 @@ class AppHeaderBar extends StatelessWidget implements PreferredSizeWidget {
       actions: <Widget>[
         if (isCrownShow) _buildIcon(context, Icons.emoji_events_outlined, () {}, margin: const EdgeInsets.only(right: 6)),
         if (isbellIconShow) _buildIcon(context, Icons.notifications_none_rounded, () {}, margin: const EdgeInsets.only(right: 6)),
+        if (extraActions != null) ...extraActions!,
         _buildIconProfile(context, userProfileData['profile_image']?.toString() ?? '', () {}, margin: const EdgeInsets.only(left: 4, right: 12)),
       ],
     );
