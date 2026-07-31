@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:minimals/constants/assets_path.dart';
 import 'package:minimals/widget/bottom_tabs/botton_tabs_controller.dart';
 import 'package:minimals/widget/bottom_tabs/widgets/tab_image.dart';
 
@@ -29,23 +28,22 @@ class AppBottomTabs extends StatelessWidget {
 
   List<BottomNavigationBarItem> _buildBottomNavItems(int currentIndex) {
     return [
-      _buildBottomNavItem(AppAssets.dashboard, 'Dashboard', currentIndex == 0),
-      _buildBottomNavItem(AppAssets.exchange, 'Holdings', currentIndex == 1),
-      _buildBottomNavItem(AppAssets.watchlist, 'Watchlist', currentIndex == 2),
-      _buildBottomNavItem(AppAssets.holdings, 'Funds', currentIndex == 3),
+      _buildBottomNavItem(Icons.dashboard_rounded, 'Dashboard', currentIndex == 0),
+      _buildBottomNavItem(Icons.swap_horiz_rounded, 'Holdings', currentIndex == 1),
+      _buildBottomNavItem(Icons.favorite_rounded, 'Watchlist', currentIndex == 2),
+      _buildBottomNavItem(Icons.account_balance_wallet_rounded, 'Funds', currentIndex == 3),
     ];
   }
 
-  BottomNavigationBarItem _buildBottomNavItem(String imgPath, String label, bool isActive) {
+  BottomNavigationBarItem _buildBottomNavItem(IconData icon, String label, bool isActive) {
     return BottomNavigationBarItem(
       icon: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TabImg(imgPath: imgPath, isActive: isActive),
+          TabImg(icon: icon, isActive: isActive),
           isActive
               ? Text(
                   label,
-                  // style: ,
                 )
               : Text(
                   label,

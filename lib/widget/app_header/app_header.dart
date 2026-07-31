@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'package:minimals/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:minimals/constants/constants.dart';
+import 'package:minimals/theme/use_theme.dart';
 
 class AppHeaderBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -19,57 +20,87 @@ class AppHeaderBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    var userProfileData = jsonDecode(storage.read<String>(StorageKeys.userProfileData) ?? '{}');
+    final theme = useTheme(context);
+    final customTheme = theme.customTheme;
+
+    Map<String, dynamic> userProfileData = {};
+    try {
+      final rawProfileData = storage.read<String>(StorageKeys.userProfileData);
+      if (rawProfileData != null && rawProfileData.isNotEmpty) {
+        userProfileData = Map<String, dynamic>.from(jsonDecode(rawProfileData));
+      }
+    } catch (_) {
+      userProfileData = {};
+    }
+
     return AppBar(
-      // backgroundColor: AppColors.white,
-      // surfaceTintColor: AppColors.white,
-      title: Row(
-        children: [
-          Text(
-            title,
-            // style: AppTextStyles.medium24.copyWith(color: AppColors.charcoal),
-          ),
-          const SizedBox(
-            width: 6,
-          ),
-        ],
+      backgroundColor: customTheme.palette.background.defaultColor,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      centerTitle: false,
+      titleSpacing: 16,
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w700,
+          color: customTheme.palette.text.primary,
+        ),
       ),
       actions: <Widget>[
-        _buildIconProfile(userProfileData['profile_image'] ?? "", () async {
-          // Get.toNamed(Routes.profileMain);
-        }, margin: const EdgeInsets.symmetric(horizontal: 8), withBackground: false),
+        if (isCrownShow) _buildIcon(context, Icons.emoji_events_outlined, () {}, margin: const EdgeInsets.only(right: 6)),
+        if (isbellIconShow) _buildIcon(context, Icons.notifications_none_rounded, () {}, margin: const EdgeInsets.only(right: 6)),
+        _buildIconProfile(context, userProfileData['profile_image']?.toString() ?? '', () {}, margin: const EdgeInsets.only(left: 4, right: 12)),
       ],
     );
   }
 
-  Widget _buildIcon(String assetPath, VoidCallback onTap, {EdgeInsets? margin, bool withBackground = false}) {
+  Widget _buildIcon(BuildContext context, IconData icon, VoidCallback onTap, {EdgeInsets? margin}) {
+    final customTheme = useTheme(context).customTheme;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: 40,
+        width: 40,
         margin: margin,
-        padding: withBackground ? const EdgeInsets.all(4) : EdgeInsets.zero,
-        decoration: withBackground
-            ? BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  width: 2.0,
-                ),
-              )
-            : null,
-        child: Icon(Icons.search),
+        decoration: BoxDecoration(
+          color: customTheme.palette.background.defaultColor,
+          shape: BoxShape.circle,
+          border: Border.all(color: customTheme.palette.common.divider, width: 1),
+        ),
+        child: Icon(icon, size: 20, color: customTheme.palette.text.primary),
       ),
     );
   }
 
-  Widget _buildIconProfile(String assetPath, VoidCallback onTap, {EdgeInsets? margin, bool withBackground = false}) {
+  Widget _buildIconProfile(BuildContext context, String assetPath, VoidCallback onTap, {EdgeInsets? margin}) {
+    final customTheme = useTheme(context).customTheme;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 36,
-        width: 36,
+        height: 40,
+        width: 40,
         margin: margin,
-        padding: withBackground ? const EdgeInsets.all(4) : EdgeInsets.zero,
-        child: Icon(Icons.person, size: 36),
+        decoration: BoxDecoration(
+          color: customTheme.palette.background.defaultColor,
+          shape: BoxShape.circle,
+          border: Border.all(color: customTheme.palette.common.divider, width: 1),
+        ),
+        child: Center(
+          child: assetPath.isNotEmpty
+              ? ClipOval(
+                  child: Image.network(
+                    assetPath,
+                    width: 36,
+                    height: 36,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Icon(Icons.person, size: 22, color: customTheme.palette.text.primary),
+                  ),
+                )
+              : Icon(Icons.person, size: 22, color: customTheme.palette.text.primary),
+        ),
       ),
     );
   }
