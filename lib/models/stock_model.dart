@@ -1,5 +1,9 @@
 import 'package:get/get.dart';
 
+/// Live price model for a single stock.
+/// [lastPrice], [change], [changePercent] are [RxDouble] so any
+/// [Obx] widget watching them rebuilds automatically when ticked by
+/// [MarketFeedService]. No timer lives here.
 class StockModel {
   final String symbol;
   final String name;
