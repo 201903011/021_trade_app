@@ -1,6 +1,14 @@
 import 'package:get/get.dart';
 import 'package:minimals/constants/assets_path.dart';
 
+class DepthLevel {
+  final RxDouble price;
+  final RxInt qty;
+  DepthLevel()
+      : price = RxDouble(0.0),
+        qty = RxInt(0);
+}
+
 /// Live price model for a single stock.
 /// [lastPrice], [change], [changePercent] are [RxDouble] so any
 /// [Obx] widget watching them rebuilds automatically when ticked by
@@ -14,6 +22,10 @@ class StockModel {
   final RxDouble lastPrice;
   final RxDouble change;
   final RxDouble changePercent;
+
+  /// 5 bid levels (buyers) and 5 ask levels (sellers), updated by MarketFeedService
+  final List<DepthLevel> bids = List.generate(5, (_) => DepthLevel());
+  final List<DepthLevel> asks = List.generate(5, (_) => DepthLevel());
 
   StockModel({
     required this.symbol,
