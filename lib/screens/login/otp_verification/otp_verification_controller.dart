@@ -120,7 +120,7 @@ class OtpVerificationController extends GetxController {
           }
           Get.toNamed(AuthRoutes.restPassword, arguments: {'userID': userID, 'title': restPasswordTitle, 'type': '', 'isChangePassword': false});
         } else {
-          // Get.offNamedUntil(Routes.dashboardMain, (route) => false);
+          Get.offNamedUntil(Routes.dashboard, (route) => false);
           await _storage.write(StorageKeys.isLogin, true);
         }
         isLoading.value = false;
