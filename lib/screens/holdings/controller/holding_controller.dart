@@ -1,4 +1,5 @@
 ﻿import 'package:get/get.dart';
+import 'package:minimals/injection.dart';
 import 'package:minimals/models/holding_model.dart';
 import 'package:minimals/screens/holdings/repository/holding_repository.dart';
 import 'package:minimals/screens/holdings/repository/wallet_repository.dart';
@@ -12,14 +13,12 @@ class HoldingMainController extends GetxController {
   final RxBool sortAscending = false.obs;
   final RxInt displayMode = 0.obs;
 
-  late final HoldingRepository _holdingRepo;
-  late final WalletRepository _walletRepo;
+  final HoldingRepository _holdingRepo = getIt<HoldingRepository>();
+  final WalletRepository _walletRepo = getIt<WalletRepository>();
 
   @override
   void onInit() {
     super.onInit();
-    _holdingRepo = HoldingRepository();
-    _walletRepo = WalletRepository();
     reload();
   }
 

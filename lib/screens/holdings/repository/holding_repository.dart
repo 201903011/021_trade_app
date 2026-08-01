@@ -1,8 +1,12 @@
+import 'package:injectable/injectable.dart';
 import 'package:minimals/models/holding_model.dart';
 import 'package:minimals/services/database_service.dart';
 import 'package:sqflite/sqflite.dart';
 
+@Singleton()
 class HoldingRepository {
+  HoldingRepository();
+
   final _db = DatabaseService.to.database;
 
   Future<List<HoldingModel>> getAllHoldings() async {

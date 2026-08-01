@@ -1,7 +1,11 @@
+import 'package:injectable/injectable.dart';
 import 'package:minimals/services/database_service.dart';
 import 'package:sqflite/sqflite.dart';
 
+@Singleton()
 class WalletRepository {
+  WalletRepository();
+
   final _db = DatabaseService.to.database;
 
   /// Returns current balance. Seeds ₹10,00,000 if row missing.
