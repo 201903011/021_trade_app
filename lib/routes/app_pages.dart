@@ -9,6 +9,11 @@ import 'package:minimals/screens/holdings/controller/holding_controller.dart';
 import 'package:minimals/screens/holdings/holding_main.dart';
 import 'package:minimals/screens/initial/initial.dart';
 import 'package:minimals/screens/login/login_view.dart';
+import 'package:minimals/screens/order/controller/order_controller.dart';
+import 'package:minimals/screens/order/order_screen.dart';
+import 'package:minimals/screens/orders/controller/orders_controller.dart';
+import 'package:minimals/screens/orders/orders_main.dart';
+import 'package:minimals/screens/profile/profile_screen.dart';
 import 'package:minimals/screens/watchlist/controller/watching_controller.dart';
 import 'package:minimals/screens/watchlist/watching_main.dart';
 import 'package:minimals/widget/bottom_tabs/botton_tabs_controller.dart';
@@ -32,6 +37,15 @@ abstract class Routes {
 
   // Funds route
   static const funds = '/funds';
+
+  // Orders route
+  static const orders = '/orders';
+
+  // Order (Buy/Sell) route
+  static const order = '/order';
+
+  // Profile route
+  static const profile = '/profile';
 }
 
 class AppPages {
@@ -100,9 +114,22 @@ class AppPages {
       page: () {
         return FundsMain();
       },
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 220),
+      binding: BindingsBuilder(() {
+        Get.put(FundsMainController());
+      }),
+    ),
+    GetPage(
+      bindings: [],
+      name: Routes.orders,
+      page: () {
+        return OrdersMain();
+      },
       transition: Transition.fadeIn,
       transitionDuration: const Duration(milliseconds: 10),
       binding: BindingsBuilder(() {
+        Get.put(OrdersMainController());
         Get.put(FundsMainController());
         final bottomTabController = Get.put(BottomTabsController());
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -111,5 +138,18 @@ class AppPages {
       }),
     ),
     ...AuthPages.routes,
+    GetPage(
+      name: Routes.order,
+      page: () => OrderScreen(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 220),
+      binding: BindingsBuilder(() => Get.put(OrderController())),
+    ),
+    GetPage(
+      name: Routes.profile,
+      page: () => const ProfileScreen(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 220),
+    ),
   ];
 }
