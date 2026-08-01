@@ -46,6 +46,23 @@ class MarketFeedService extends GetxService {
       stock.lastPrice.value = rounded;
       stock.change.value = double.parse((rounded - stock.basePrice).toStringAsFixed(2));
       stock.changePercent.value = double.parse(((rounded - stock.basePrice) / stock.basePrice * 100).toStringAsFixed(2));
+
+      _updateDepth(stock, rounded);
+    }
+  }
+
+  void _updateDepth(StockModel stock, double ltp) {
+    // Bids: levels below LTP at 0.05% steps with random qty 10–500
+    for (int i = 0; i < 5; i++) {
+      final step = ltp * 0.0005 * (i + 1);
+      stock.bids[i].price.value = double.parse((ltp - step).toStringAsFixed(2));
+      stock.bids[i].qty.value = 10 + _random.nextInt(491);
+    }
+    // Asks: levels above LTP at 0.05% steps with random qty 10–500
+    for (int i = 0; i < 5; i++) {
+      final step = ltp * 0.0005 * (i + 1);
+      stock.asks[i].price.value = double.parse((ltp + step).toStringAsFixed(2));
+      stock.asks[i].qty.value = 10 + _random.nextInt(491);
     }
   }
 }
