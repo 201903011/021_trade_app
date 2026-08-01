@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:minimals/firebase_options.dart';
 import 'package:minimals/services/device_service.dart';
+import 'package:minimals/services/database_service.dart';
+import 'package:minimals/services/market_feed_service.dart';
 import 'package:minimals/services/firebase_services/notification_service.dart';
 import 'package:minimals/services/firebase_services/remote_config_service.dart';
 import 'package:minimals/utils/global_utils.dart';
@@ -150,6 +152,10 @@ Future<void> main() async {
 
       Get.put(RemoteConfigService(), permanent: true);
       Get.put(NotificationService(), permanent: true); // Fixed: removed duplicate
+
+      // Initialize SQLite database and market feed
+      await Get.putAsync(() => DatabaseService().init(), permanent: true);
+      Get.put(MarketFeedService(), permanent: true);
 
       await configureDependencies(environment);
 

@@ -1,6 +1,7 @@
 import 'package:minimals/config/config_data.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:minimals/injection.config.dart';
 import 'package:minimals/services/localization_service.dart';
 import 'package:minimals/config/config.dart';
 import 'package:minimals/config/models/app_config.dart' as config_models;
@@ -35,7 +36,7 @@ Future<void> configureDependencies(env.AppEnvironment envFlav) async {
 
   // Register the config instance
   getIt.registerSingleton<Config>(config);
-
+  getIt.init(environment: envFlav.toString());
   // Register LocalizationService if not already registered
   if (!getIt.isRegistered<LocalizationService>()) {
     getIt.registerSingleton<LocalizationService>(LocalizationService());
