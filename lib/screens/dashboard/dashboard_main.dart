@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:minimals/models/stock_model.dart';
 import 'package:minimals/screens/dashboard/controller/dashboard_controller.dart';
 import 'package:minimals/screens/dashboard/widgets/market_stock_row.dart';
+import 'package:minimals/screens/order/widgets/buy_sell_action_sheet.dart';
 import 'package:minimals/services/market_feed_service.dart';
 import 'package:minimals/widget/app_header/app_header.dart';
 import 'package:minimals/widget/app_loader.dart';
@@ -79,6 +80,6 @@ class DashboardMain extends StatelessWidget {
   }
 
   void _openTicket(BuildContext context, StockModel stock) {
-    navigateToOrder(stock);
+    showBuySellActionSheet(context, stock);
   }
 }
