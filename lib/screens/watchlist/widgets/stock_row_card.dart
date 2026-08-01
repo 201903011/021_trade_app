@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:minimals/models/stock_model.dart';
+import 'package:minimals/theme/use_theme.dart';
 
 class StockRowCard extends StatelessWidget {
   const StockRowCard({
@@ -16,32 +17,53 @@ class StockRowCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = useTheme(context);
+    final baseTheme = theme.theme;
+    final customTheme = theme.customTheme;
 
     return InkWell(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: theme.cardColor,
+          color: baseTheme.cardColor,
           border: Border(
-            bottom: BorderSide(color: theme.dividerColor, width: 0.5),
+            bottom: BorderSide(color: baseTheme.dividerColor, width: 0.5),
           ),
         ),
         child: Row(
           children: [
-            // Drag handle
-            Icon(Icons.drag_handle_rounded, color: theme.dividerColor, size: 20),
+            // Symbol + name
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: customTheme.palette.common.primary.lighter,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              alignment: Alignment.center,
+              child: stock != null && stock.imageUrl.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        stock.imageUrl,
+                        width: 36,
+                        height: 36,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Icon(Icons.show_chart_rounded, size: 22, color: customTheme.palette.common.primary.light),
+                      ),
+                    )
+                  : Icon(Icons.show_chart_rounded, size: 22, color: customTheme.palette.common.primary.main),
+            ),
             const SizedBox(width: 12),
 
-            // Symbol + name
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     stock.symbol,
-                    style: theme.textTheme.titleSmall?.copyWith(
+                    style: baseTheme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w700,
                       letterSpacing: 0.3,
                     ),
@@ -49,8 +71,8 @@ class StockRowCard extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     stock.name,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
+                    style: baseTheme.textTheme.bodySmall?.copyWith(
+                      color: baseTheme.textTheme.bodySmall?.color?.withOpacity(0.6),
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -71,7 +93,7 @@ class StockRowCard extends StatelessWidget {
                 children: [
                   Text(
                     '₹${price.toStringAsFixed(2)}',
-                    style: theme.textTheme.titleSmall?.copyWith(
+                    style: baseTheme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -84,7 +106,7 @@ class StockRowCard extends StatelessWidget {
                     ),
                     child: Text(
                       '${isPositive ? '+' : ''}${change.toStringAsFixed(2)} (${isPositive ? '+' : ''}${changePct.toStringAsFixed(2)}%)',
-                      style: theme.textTheme.labelSmall?.copyWith(
+                      style: baseTheme.textTheme.labelSmall?.copyWith(
                         color: color,
                         fontWeight: FontWeight.w600,
                       ),
@@ -94,12 +116,12 @@ class StockRowCard extends StatelessWidget {
               );
             }),
 
-            const SizedBox(width: 8),
+            const SizedBox(width: 25),
 
             // Remove button
             GestureDetector(
               onTap: onRemove,
-              child: Icon(Icons.close_rounded, size: 18, color: theme.dividerColor),
+              child: Icon(Icons.delete, size: 25, color: customTheme.palette.common.error.light),
             ),
           ],
         ),

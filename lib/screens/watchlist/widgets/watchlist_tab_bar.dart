@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:minimals/models/watchlist_model.dart';
 import 'package:minimals/screens/watchlist/controller/watching_controller.dart';
+import 'package:minimals/theme/use_theme.dart';
 
 class WatchlistTabBar extends StatelessWidget {
   const WatchlistTabBar({super.key, required this.controller});
@@ -10,14 +10,16 @@ class WatchlistTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final primary = theme.primaryColor;
+    final theme = useTheme(context);
+    final baseTheme = theme.theme;
+    final customTheme = theme.customTheme;
 
     return Container(
-      height: 48,
+      height: 54 + 15,
+      padding: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
-        color: theme.cardColor,
-        border: Border(bottom: BorderSide(color: theme.dividerColor, width: 0.5)),
+        color: baseTheme.cardColor,
+        border: Border(bottom: BorderSide(color: baseTheme.dividerColor, width: 0.5)),
       ),
       child: Obx(() {
         final watchlists = controller.watchlists;
@@ -32,7 +34,7 @@ class WatchlistTabBar extends StatelessWidget {
               return _TabChip(
                 label: watchlists[i].name,
                 isActive: isActive,
-                primaryColor: primary,
+                primaryColor: customTheme.palette.common.primary.main,
                 onTap: () => controller.selectWatchlist(i),
               );
             }),
@@ -44,17 +46,17 @@ class WatchlistTabBar extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   decoration: BoxDecoration(
-                    border: Border.all(color: theme.dividerColor),
+                    border: Border.all(color: baseTheme.dividerColor),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.add_rounded, size: 16, color: theme.textTheme.bodySmall?.color),
+                      Icon(Icons.add_rounded, size: 16, color: baseTheme.textTheme.bodySmall?.color),
                       const SizedBox(width: 4),
                       Text(
                         'New',
-                        style: theme.textTheme.labelSmall,
+                        style: baseTheme.textTheme.labelSmall,
                       ),
                     ],
                   ),
@@ -82,10 +84,10 @@ class WatchlistTabBar extends StatelessWidget {
         actions: [
           TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               final name = nameCtrl.text.trim();
               if (name.isNotEmpty) {
-                controller.createWatchlist(name);
+                await controller.createWatchlist(name);
                 Get.back();
               }
             },
@@ -117,7 +119,7 @@ class _TabChip extends StatelessWidget {
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         decoration: BoxDecoration(
           color: isActive ? primaryColor : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
@@ -129,7 +131,8 @@ class _TabChip extends StatelessWidget {
           label,
           style: theme.textTheme.labelSmall?.copyWith(
             color: isActive ? Colors.white : theme.textTheme.bodySmall?.color,
-            fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+            fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
+            fontSize: 14,
           ),
         ),
       ),

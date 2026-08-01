@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:minimals/models/stock_model.dart';
+import 'package:minimals/theme/use_theme.dart';
 
 void showBuySellTicket(BuildContext context, StockModel stock) {
   showModalBottomSheet(
@@ -33,7 +34,9 @@ class _BuySellTicketSheetState extends State<_BuySellTicketSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = useTheme(context);
+    final baseTheme = theme.theme;
+    final customTheme = theme.customTheme;
     final stock = widget.stock;
 
     return Padding(
@@ -48,7 +51,7 @@ class _BuySellTicketSheetState extends State<_BuySellTicketSheet> {
               width: 36,
               height: 4,
               decoration: BoxDecoration(
-                color: theme.dividerColor,
+                color: baseTheme.dividerColor,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -64,12 +67,12 @@ class _BuySellTicketSheetState extends State<_BuySellTicketSheet> {
                   children: [
                     Text(
                       stock.symbol,
-                      style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+                      style: baseTheme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
                     ),
                     Text(
                       stock.name,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
+                      style: baseTheme.textTheme.bodySmall?.copyWith(
+                        color: baseTheme.textTheme.bodySmall?.color?.withOpacity(0.6),
                       ),
                     ),
                   ],
@@ -77,7 +80,7 @@ class _BuySellTicketSheetState extends State<_BuySellTicketSheet> {
                 const Spacer(),
                 Obx(() => Text(
                       '₹${stock.lastPrice.value.toStringAsFixed(2)}',
-                      style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+                      style: baseTheme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
                     )),
               ],
             ),
@@ -91,9 +94,9 @@ class _BuySellTicketSheetState extends State<_BuySellTicketSheet> {
             child: Container(
               height: 44,
               decoration: BoxDecoration(
-                color: theme.scaffoldBackgroundColor,
+                color: baseTheme.scaffoldBackgroundColor,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: theme.dividerColor),
+                border: Border.all(color: baseTheme.dividerColor),
               ),
               child: Row(
                 children: [

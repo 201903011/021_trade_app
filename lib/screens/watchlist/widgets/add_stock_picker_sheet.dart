@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minimals/models/stock_model.dart';
 import 'package:minimals/screens/watchlist/controller/watching_controller.dart';
+import 'package:minimals/theme/use_theme.dart';
 
 void showAddStockPickerSheet(
   BuildContext context,
@@ -20,7 +21,7 @@ void showAddStockPickerSheet(
   );
 }
 
-class _AddStockPickerSheet extends StatelessWidget {
+class _AddStockPickerSheet extends StatefulWidget {
   const _AddStockPickerSheet({
     required this.controller,
     required this.watchlistId,
@@ -30,8 +31,15 @@ class _AddStockPickerSheet extends StatelessWidget {
   final String watchlistId;
 
   @override
+  State<_AddStockPickerSheet> createState() => _AddStockPickerSheetState();
+}
+
+class _AddStockPickerSheetState extends State<_AddStockPickerSheet> {
+  @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = useTheme(context);
+    final baseTheme = theme.theme;
+    final customTheme = theme.customTheme;
 
     return DraggableScrollableSheet(
       initialChildSize: 0.6,
@@ -48,7 +56,7 @@ class _AddStockPickerSheet extends StatelessWidget {
                 width: 36,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: theme.dividerColor,
+                  color: baseTheme.dividerColor,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -57,7 +65,11 @@ class _AddStockPickerSheet extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
               child: Row(
                 children: [
-                  Text('Add Stocks', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
+                  Text('Add Stocks',
+                      style: baseTheme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                      )),
                   const Spacer(),
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(),
@@ -66,47 +78,52 @@ class _AddStockPickerSheet extends StatelessWidget {
                 ],
               ),
             ),
-            const Divider(height: 1),
+            Divider(height: 1, color: baseTheme.dividerColor, thickness: 0.5),
             Expanded(
               child: ListView.builder(
                 controller: scrollCtrl,
                 itemCount: StockModel.allStocks.length,
                 itemBuilder: (_, i) {
                   final stock = StockModel.allStocks[i];
-                  final isAdded = controller.isStockInWatchlist(watchlistId, stock.symbol);
+                  final isAdded = widget.controller.isStockInWatchlist(widget.watchlistId, stock.symbol);
 
                   return ListTile(
                     onTap: () {
                       if (isAdded) {
-                        controller.removeStock(watchlistId, stock.symbol);
+                        widget.controller.removeStock(widget.watchlistId, stock.symbol);
                       } else {
-                        controller.addStock(watchlistId, stock.symbol);
+                        widget.controller.addStock(widget.watchlistId, stock.symbol);
                       }
+                      setState(() {});
                     },
                     leading: Container(
-                      width: 40,
-                      height: 40,
+                      width: 44,
+                      height: 44,
                       decoration: BoxDecoration(
-                        color: theme.primaryColor.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(8),
+                        color: customTheme.palette.common.primary.lighter,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Center(
-                        child: Text(
-                          stock.symbol.substring(0, 2),
-                          style: theme.textTheme.labelMedium?.copyWith(
-                            color: theme.primaryColor,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
+                      alignment: Alignment.center,
+                      child: stock != null && stock.imageUrl.isNotEmpty
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                stock.imageUrl,
+                                width: 36,
+                                height: 36,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) => Icon(Icons.show_chart_rounded, size: 22, color: customTheme.palette.common.primary.light),
+                              ),
+                            )
+                          : Icon(Icons.show_chart_rounded, size: 22, color: customTheme.palette.common.primary.main),
                     ),
                     title: Text(
                       stock.symbol,
-                      style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+                      style: baseTheme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
                     ),
                     subtitle: Text(
                       stock.name,
-                      style: theme.textTheme.bodySmall,
+                      style: baseTheme.textTheme.bodySmall,
                       overflow: TextOverflow.ellipsis,
                     ),
                     trailing: AnimatedContainer(
@@ -114,10 +131,10 @@ class _AddStockPickerSheet extends StatelessWidget {
                       width: 28,
                       height: 28,
                       decoration: BoxDecoration(
-                        color: isAdded ? theme.primaryColor : Colors.transparent,
+                        color: isAdded ? baseTheme.primaryColor : Colors.transparent,
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: isAdded ? theme.primaryColor : theme.dividerColor,
+                          color: isAdded ? baseTheme.primaryColor : baseTheme.dividerColor,
                           width: 1.5,
                         ),
                       ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:minimals/components/index.dart';
+import 'package:minimals/theme/overrides/index.dart';
+import 'package:minimals/theme/use_theme.dart';
 
 class WatchlistEmptyState extends StatelessWidget {
   const WatchlistEmptyState({super.key, required this.onAddTap});
@@ -7,7 +10,9 @@ class WatchlistEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = useTheme(context);
+    final baseTheme = theme.theme;
+    final customTheme = theme.customTheme;
 
     return Center(
       child: Padding(
@@ -19,39 +24,35 @@ class WatchlistEmptyState extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: theme.primaryColor.withOpacity(0.08),
+                color: customTheme.palette.common.primary.main.withOpacity(0.08),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.bookmark_border_rounded,
                 size: 40,
-                color: theme.primaryColor,
+                color: customTheme.palette.common.primary.main,
               ),
             ),
             const SizedBox(height: 20),
             Text(
               'No stocks yet',
-              style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+              style: baseTheme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 8),
             Text(
               'Add stocks to track their live prices here.',
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
+              style: baseTheme.textTheme.bodySmall?.copyWith(
+                color: baseTheme.textTheme.bodySmall?.color?.withOpacity(0.6),
               ),
             ),
             const SizedBox(height: 24),
-            ElevatedButton.icon(
+            CustomButton(
               onPressed: onAddTap,
-              icon: const Icon(Icons.add_rounded, size: 18),
-              label: const Text('Add Stocks'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: theme.primaryColor,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-              ),
+              variant: ButtonVariant.outlined,
+              icon: Icons.add_rounded,
+              text: 'Add Stocks',
+              size: ButtonSize.small,
             ),
           ],
         ),

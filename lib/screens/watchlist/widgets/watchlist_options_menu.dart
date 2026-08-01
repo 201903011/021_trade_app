@@ -43,10 +43,10 @@ class WatchlistOptionsMenu extends StatelessWidget {
         actions: [
           TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               final name = ctrl.text.trim();
               if (name.isNotEmpty) {
-                controller.renameWatchlist(id, name);
+                await controller.renameWatchlist(id, name);
                 Get.back();
               }
             },
@@ -66,8 +66,8 @@ class WatchlistOptionsMenu extends StatelessWidget {
         actions: [
           TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
           TextButton(
-            onPressed: () {
-              controller.deleteWatchlist(id);
+            onPressed: () async {
+              await controller.deleteWatchlist(id);
               Get.back();
             },
             style: TextButton.styleFrom(foregroundColor: const Color(0xFFFF5630)),
