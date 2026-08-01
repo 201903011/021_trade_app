@@ -36,9 +36,11 @@ class MarketFeedService extends GetxService {
 
   void _tick() {
     for (final stock in StockModel.allStocks) {
-      // ±0.5% random walk
-      final delta = stock.lastPrice.value * (_random.nextDouble() * 0.01 - 0.005);
-      final newPrice = (stock.lastPrice.value + delta).clamp(1.0, double.infinity);
+      // ±0.3% random walk, clamped to stay within ±7% of base price
+      final delta = stock.lastPrice.value * (_random.nextDouble() * 0.006 - 0.003);
+      final minPrice = stock.basePrice * 0.93;
+      final maxPrice = stock.basePrice * 1.07;
+      final newPrice = (stock.lastPrice.value + delta).clamp(minPrice, maxPrice);
       final rounded = double.parse(newPrice.toStringAsFixed(2));
 
       stock.lastPrice.value = rounded;
