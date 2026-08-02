@@ -17,7 +17,7 @@ class ThemeOverrides {
       textButtonTheme: TextButtonOverrides.create(baseTheme, customTheme),
 
       // Card overrides
-      cardTheme: CardOverrides.create(baseTheme, customTheme),
+      // cardTheme: CardOverrides.create(baseTheme, customTheme),
 
       // Input overrides
       inputDecorationTheme: InputDecorationOverrides.create(baseTheme, customTheme),
@@ -38,10 +38,10 @@ class ThemeOverrides {
       sliderTheme: SliderOverrides.create(baseTheme, customTheme),
 
       // Tab bar overrides
-      tabBarTheme: TabBarOverrides.create(baseTheme, customTheme),
+      // tabBarTheme: TabBarOverrides.create(baseTheme, customTheme),
 
-      // Dialog overrides
-      dialogTheme: DialogOverrides.create(baseTheme, customTheme),
+      // // Dialog overrides
+      // dialogTheme: DialogOverrides.create(baseTheme, customTheme),
 
       // Drawer overrides
       drawerTheme: DrawerOverrides.create(baseTheme, customTheme),

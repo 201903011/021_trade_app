@@ -259,7 +259,7 @@ class CustomThemeExample {
       elevatedButtonTheme: ElevatedButtonOverrides.create(baseTheme, customTheme),
       outlinedButtonTheme: OutlinedButtonOverrides.create(baseTheme, customTheme),
       textButtonTheme: TextButtonOverrides.create(baseTheme, customTheme),
-      cardTheme: CardOverrides.create(baseTheme, customTheme),
+      // cardTheme: CardOverrides.create(baseTheme, customTheme),
       inputDecorationTheme: InputDecorationOverrides.create(baseTheme, customTheme),
       appBarTheme: AppBarOverrides.create(baseTheme, customTheme),
     );
@@ -270,7 +270,7 @@ class CustomThemeExample {
     return baseTheme.copyWith(
       // Use specific variants instead of defaults
       elevatedButtonTheme: ElevatedButtonOverrides.create(baseTheme, customTheme),
-      cardTheme: CardOverrides.createElevated(baseTheme, customTheme),
+      // cardTheme: CardOverrides.createElevated(baseTheme, customTheme),
       inputDecorationTheme: InputDecorationOverrides.createOutlined(baseTheme, customTheme),
       appBarTheme: AppBarOverrides.createTransparent(baseTheme, customTheme),
       chipTheme: ChipOverrides.createFilled(baseTheme, customTheme),
