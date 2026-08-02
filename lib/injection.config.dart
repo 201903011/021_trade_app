@@ -13,6 +13,7 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import 'locale/enhanced_localization_service.dart' as _i901;
+import 'screens/funds/repository/transaction_repository.dart' as _i110;
 import 'screens/holdings/repository/holding_repository.dart' as _i485;
 import 'screens/holdings/repository/order_repository.dart' as _i734;
 import 'screens/holdings/repository/wallet_repository.dart' as _i559;
@@ -40,6 +41,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i666.WatchlistRepository>(() => _i666.WatchlistRepository());
     gh.singleton<_i448.GlobalService>(() => _i448.GlobalService());
     gh.singleton<_i468.LocalizationService>(() => _i468.LocalizationService());
+    gh.singleton<_i110.TransactionRepository>(
+        () => _i110.TransactionRepository());
     gh.singleton<_i373.LogOutServices>(
         () => _i373.LogOutServices(globalService: gh<_i448.GlobalService>()));
     return this;
