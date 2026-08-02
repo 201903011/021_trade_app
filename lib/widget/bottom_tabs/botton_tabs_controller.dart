@@ -32,7 +32,7 @@ class BottomTabsController extends GetxController {
         Get.offNamedUntil(Routes.watchlist, (route) => false);
         break;
       case 3:
-        Get.offNamedUntil(Routes.funds, (route) => false);
+        Get.offNamedUntil(Routes.orders, (route) => false);
         break;
     }
     // Navigate to additional route if needed

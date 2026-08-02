@@ -31,7 +31,7 @@ class AppBottomTabs extends StatelessWidget {
       _buildBottomNavItem(Icons.dashboard_rounded, 'Dashboard', currentIndex == 0),
       _buildBottomNavItem(Icons.swap_horiz_rounded, 'Holdings', currentIndex == 1),
       _buildBottomNavItem(Icons.favorite_rounded, 'Watchlist', currentIndex == 2),
-      _buildBottomNavItem(Icons.account_balance_wallet_rounded, 'Funds', currentIndex == 3),
+      _buildBottomNavItem(Icons.receipt_long_rounded, 'Orders', currentIndex == 3),
     ];
   }
 
