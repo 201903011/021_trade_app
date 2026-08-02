@@ -76,6 +76,7 @@ class FundsMainController extends GetxController {
       type: TransactionType.add,
       amount: amount,
       createdAt: DateTime.now(),
+      description: 'Added funds',
     ));
     await reload();
   }
@@ -89,6 +90,7 @@ class FundsMainController extends GetxController {
       type: TransactionType.withdraw,
       amount: amount,
       createdAt: DateTime.now(),
+      description: 'Withdrew funds',
     ));
     await reload();
   }

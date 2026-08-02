@@ -245,7 +245,7 @@ class _TransactionTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isAdd ? 'Added' : 'Withdrew',
+                  transaction.description ?? (isAdd ? 'Added' : 'Withdrew'),
                   style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 2),
