@@ -19,10 +19,11 @@ class DatabaseService extends GetxService {
 
     _db = await openDatabase(
       path,
-      version: 2,
+      version: 3,
       onCreate: _onCreate,
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) await runMigrations(db);
+        if (oldVersion < 3) await _addTransactionsTable(db);
       },
       onConfigure: (db) async => await db.execute('PRAGMA foreign_keys = ON'),
     );
@@ -77,6 +78,15 @@ class DatabaseService extends GetxService {
       )
     ''');
 
+    await db.execute('''
+      CREATE TABLE transactions (
+        id TEXT PRIMARY KEY,
+        type TEXT NOT NULL,
+        amount REAL NOT NULL,
+        created_at INTEGER NOT NULL
+      )
+    ''');
+
     // Seed wallet with ₹10,00,000 starting balance
     await db.insert('wallet', {'id': 1, 'balance': 0.0});
   }
@@ -91,6 +101,18 @@ class DatabaseService extends GetxService {
     try {
       await db.execute('ALTER TABLE orders ADD COLUMN limit_price REAL');
     } catch (_) {}
+  }
+
+  /// Add transactions table for v2 → v3 upgrade.
+  Future<void> _addTransactionsTable(Database db) async {
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS transactions (
+        id TEXT PRIMARY KEY,
+        type TEXT NOT NULL,
+        amount REAL NOT NULL,
+        created_at INTEGER NOT NULL
+      )
+    ''');
   }
 
   @override
