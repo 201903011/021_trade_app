@@ -18,7 +18,6 @@ class WatchlistTabBar extends StatelessWidget {
       height: 54 + 15,
       padding: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
-        color: baseTheme.cardColor,
         border: Border(bottom: BorderSide(color: baseTheme.dividerColor, width: 0.5)),
       ),
       child: Obx(() {

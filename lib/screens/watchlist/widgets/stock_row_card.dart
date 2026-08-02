@@ -26,7 +26,6 @@ class StockRowCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: baseTheme.cardColor,
           border: Border(
             bottom: BorderSide(color: baseTheme.dividerColor, width: 0.5),
           ),
