@@ -181,7 +181,7 @@ Future<void> main() async {
 
       runApp(
         DevicePreview(
-          enabled: false,
+          enabled: kDebugMode,
           builder: (context) => MyApp(initialLocale: savedLocale),
         ),
       );
