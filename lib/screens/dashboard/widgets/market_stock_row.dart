@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:minimals/models/stock_model.dart';
+import 'package:minimals/theme/use_theme.dart';
 
 /// A single row in the market overview. Uses an [AnimatedContainer] to flash
 /// green (price up) or red (price down) on each tick, then fades back.
@@ -56,7 +57,9 @@ class _MarketStockRowState extends State<MarketStockRow> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = useTheme(context);
+    final baseTheme = theme.theme;
+    final customTheme = theme.customTheme;
 
     return InkWell(
       onTap: widget.onTap,
@@ -75,7 +78,7 @@ class _MarketStockRowState extends State<MarketStockRow> with SingleTickerProvid
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: theme.primaryColor.withOpacity(0.08),
+                  color: customTheme.palette.common.primary.lighter,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 alignment: Alignment.center,
@@ -87,10 +90,10 @@ class _MarketStockRowState extends State<MarketStockRow> with SingleTickerProvid
                           width: 36,
                           height: 36,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Icon(Icons.show_chart_rounded, size: 22, color: theme.primaryColor),
+                          errorBuilder: (_, __, ___) => Icon(Icons.show_chart_rounded, size: 22, color: customTheme.palette.common.primary.main),
                         ),
                       )
-                    : Icon(Icons.show_chart_rounded, size: 22, color: theme.primaryColor),
+                    : Icon(Icons.show_chart_rounded, size: 22, color: customTheme.palette.common.primary.main),
               ),
               const SizedBox(width: 12),
 
@@ -101,12 +104,12 @@ class _MarketStockRowState extends State<MarketStockRow> with SingleTickerProvid
                   children: [
                     Text(
                       widget.stock.symbol,
-                      style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+                      style: baseTheme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
                     ),
                     Text(
                       widget.stock.name,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.textTheme.bodySmall?.color?.withOpacity(0.6),
+                      style: baseTheme.textTheme.bodySmall?.copyWith(
+                        color: baseTheme.textTheme.bodySmall?.color?.withOpacity(0.6),
                         fontSize: 11,
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -121,14 +124,14 @@ class _MarketStockRowState extends State<MarketStockRow> with SingleTickerProvid
                 final change = widget.stock.change.value;
                 final pct = widget.stock.changePercent.value;
                 final isPos = change >= 0;
-                final color = isPos ? const Color(0xFF36B37E) : const Color(0xFFFF5630);
+                final color = isPos ? customTheme.palette.common.success.main : customTheme.palette.common.error.main;
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
                       '₹${price.toStringAsFixed(2)}',
-                      style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+                      style: baseTheme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 3),
                     Row(
@@ -147,7 +150,7 @@ class _MarketStockRowState extends State<MarketStockRow> with SingleTickerProvid
                           ),
                           child: Text(
                             '${isPos ? '+' : ''}${pct.toStringAsFixed(2)}%',
-                            style: theme.textTheme.labelSmall?.copyWith(
+                            style: baseTheme.textTheme.labelSmall?.copyWith(
                               color: color,
                               fontWeight: FontWeight.w700,
                             ),
