@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:minimals/injection.dart';
 import 'package:minimals/models/holding_model.dart';
 import 'package:minimals/models/order_model.dart';
 import 'package:minimals/models/stock_model.dart';
+import 'package:minimals/models/transaction_model.dart';
 import 'package:minimals/screens/funds/controller/funds_controller.dart';
+import 'package:minimals/screens/funds/repository/transaction_repository.dart';
 import 'package:minimals/screens/holdings/controller/holding_controller.dart';
 import 'package:minimals/screens/holdings/repository/holding_repository.dart';
 import 'package:minimals/screens/holdings/repository/order_repository.dart';
@@ -20,9 +23,10 @@ class OrderController extends GetxController {
   final TextEditingController qtyCtrl = TextEditingController(text: '1');
   final TextEditingController limitPriceCtrl = TextEditingController();
 
-  final _holdingRepo = HoldingRepository();
-  final _orderRepo = OrderRepository();
-  final _walletRepo = WalletRepository();
+  final _holdingRepo = getIt<HoldingRepository>();
+  final _orderRepo = getIt<OrderRepository>();
+  final _walletRepo = getIt<WalletRepository>();
+  final _txnRepo = getIt<TransactionRepository>();
 
   RxDouble get availableBalance => fundsController.walletBalance;
 
@@ -111,6 +115,15 @@ class OrderController extends GetxController {
         price: execPrice,
         limitPrice: isMarket.value ? null : execPrice,
         createdAt: DateTime.now(),
+      ));
+
+      // Record transaction
+      await _txnRepo.insertTransaction(TransactionModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        type: isBuy.value ? TransactionType.withdraw : TransactionType.add,
+        amount: value,
+        createdAt: DateTime.now(),
+        description: '${isBuy.value ? "Buy" : "Sell"} ${stock.symbol} - ${qty.toStringAsFixed(qty == qty.floorToDouble() ? 0 : 2)} shares @ ₹${execPrice.toStringAsFixed(2)}',
       ));
 
       try {

@@ -19,11 +19,12 @@ class DatabaseService extends GetxService {
 
     _db = await openDatabase(
       path,
-      version: 3,
+      version: 4,
       onCreate: _onCreate,
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) await runMigrations(db);
         if (oldVersion < 3) await _addTransactionsTable(db);
+        if (oldVersion < 4) await _addDescriptionColumn(db);
       },
       onConfigure: (db) async => await db.execute('PRAGMA foreign_keys = ON'),
     );
@@ -83,7 +84,8 @@ class DatabaseService extends GetxService {
         id TEXT PRIMARY KEY,
         type TEXT NOT NULL,
         amount REAL NOT NULL,
-        created_at INTEGER NOT NULL
+        created_at INTEGER NOT NULL,
+        description TEXT
       )
     ''');
 
@@ -113,6 +115,13 @@ class DatabaseService extends GetxService {
         created_at INTEGER NOT NULL
       )
     ''');
+  }
+
+  /// Add description column for v3 → v4 upgrade.
+  Future<void> _addDescriptionColumn(Database db) async {
+    try {
+      await db.execute('ALTER TABLE transactions ADD COLUMN description TEXT');
+    } catch (_) {}
   }
 
   @override
