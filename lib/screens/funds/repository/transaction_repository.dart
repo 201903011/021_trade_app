@@ -1,28 +1,23 @@
 import 'package:injectable/injectable.dart';
-import 'package:minimals/models/order_model.dart';
+import 'package:minimals/models/transaction_model.dart';
 import 'package:minimals/services/database_service.dart';
 import 'package:sqflite/sqflite.dart';
 
 @Singleton()
-class OrderRepository {
-  OrderRepository();
+class TransactionRepository {
+  TransactionRepository();
 
   final _db = DatabaseService.to.database;
 
-  Future<void> insertOrder(OrderModel order) async {
+  Future<void> insertTransaction(TransactionModel transaction) async {
     await _db.insert(
-      'orders',
-      order.toMap(),
+      'transactions',
+      transaction.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<List<OrderModel>> getAllOrders() async {
-    final rows = await _db.query('orders', orderBy: 'created_at DESC');
-    return rows.map(OrderModel.fromMap).toList();
-  }
-
-  Future<List<OrderModel>> getOrders({
+  Future<List<TransactionModel>> getTransactions({
     DateTime? from,
     DateTime? to,
   }) async {
@@ -41,11 +36,11 @@ class OrderRepository {
     }
 
     final rows = await _db.query(
-      'orders',
+      'transactions',
       where: where,
       whereArgs: whereArgs,
       orderBy: 'created_at DESC',
     );
-    return rows.map(OrderModel.fromMap).toList();
+    return rows.map(TransactionModel.fromMap).toList();
   }
 }
