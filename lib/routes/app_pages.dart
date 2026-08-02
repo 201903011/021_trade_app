@@ -16,6 +16,8 @@ import 'package:minimals/screens/orders/orders_main.dart';
 import 'package:minimals/screens/profile/profile_screen.dart';
 import 'package:minimals/screens/watchlist/controller/watching_controller.dart';
 import 'package:minimals/screens/watchlist/watching_main.dart';
+import 'package:minimals/settings/pages/settings_page.dart';
+import 'package:minimals/settings/settings_controller.dart';
 import 'package:minimals/widget/bottom_tabs/botton_tabs_controller.dart';
 
 abstract class Routes {
@@ -150,6 +152,13 @@ class AppPages {
       page: () => const ProfileScreen(),
       transition: Transition.rightToLeft,
       transitionDuration: const Duration(milliseconds: 220),
+    ),
+    GetPage(
+      name: Routes.settings,
+      page: () => const SettingsPage(),
+      transition: Transition.rightToLeft,
+      transitionDuration: const Duration(milliseconds: 220),
+      binding: BindingsBuilder(() => Get.put(SettingsController(), permanent: true)),
     ),
   ];
 }
